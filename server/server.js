@@ -1,11 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const app = express();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const PORT = process.env.PORT || 4242;
 
-app.use(express.static(path.join(__dirname, '..')));
+const app = express();
+const PORT = process.env.PORT || 4242; // Render назначает свой PORT
+
+app.use(express.static(path.join(__dirname, '..'))); // тут лежат html/js
 app.use(express.json());
 
 const cakePrices = {
@@ -19,9 +20,7 @@ const cakePrices = {
   spiderman: 120
 };
 
-app.get('/prices', (req, res) => {
-  res.json(cakePrices);
-});
+app.get('/prices', (req, res) => res.json(cakePrices));
 
 app.post('/create-checkout-session', async (req, res) => {
   try {
@@ -33,26 +32,18 @@ app.post('/create-checkout-session', async (req, res) => {
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: { name: cake },
-            unit_amount: cakePrices[cake] * 100,
-          },
-          quantity: 1,
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: { name: cake },
+          unit_amount: cakePrices[cake] * 100,
         },
-      ],
+        quantity: 1,
+      }],
       mode: 'payment',
-      metadata: {
-        customer_name: name,
-        cake_type: cake,
-        event_date: date,
-        child_age: age,
-        notes: message || 'No notes',
-      },
-      success_url: 'http://localhost:4242/success.html?session_Id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:4242/cancel.html',
+      metadata: { customer_name: name, cake_type: cake, event_date: date, child_age: age, notes: message || 'No notes' },
+      success_url: `${process.env.SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.SITE_URL}/cancel.html`,
     });
 
     res.json({ id: session.id });
@@ -61,10 +52,9 @@ app.post('/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: 'Something went wrong creating the session' });
   }
 });
-// Получение данных сессии Stripe по session_id
-// Получаем информацию о сессии Stripe
+
 app.get('/checkout-session', async (req, res) => {
-  const sessionId = req.query.sessionId;
+  const sessionId = req.query.session_id;
   if (!sessionId) return res.status(400).json({ error: 'No sessionId provided' });
 
   try {
@@ -75,4 +65,5 @@ app.get('/checkout-session', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve session' });
   }
 });
-app.listen(PORT, () => console.log('Server running on http://localhost:4242'));
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
