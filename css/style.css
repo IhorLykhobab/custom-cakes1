@@ -1,0 +1,646 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff8f5; /* мягкий пастельный фон */
+  color: #333;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff8f4;
+  color: #333;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #f8c8dc, #fde2e4);
+  text-align: center;
+  padding: 90px 20px;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 32px;
+  background: #ff6f91;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+/* PORTFOLIO */
+.portfolio {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.portfolio h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  padding: 0 20px;
+}
+
+.cake {
+  background: white;
+  padding: 15px;
+  border-radius: 18px;
+  max-width: 280px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.cake img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.cake p {
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* ORDER */
+.order {
+  background: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* FOOTER */
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  font-size: 0.9rem;
+}
+/* ORDER FORM STYLES */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input, form select, form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 100%;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+form button {
+  padding: 12px 25px;
+  background: #ff6f91;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+form button:hover {
+  background: #ff4f70;
+}
+/* Плавные переходы */
+button, .cake {
+  transition: all 0.3s ease;
+}
+
+/* HERO */
+.hero h1 {
+  font-size: 3rem;
+}
+
+.hero p {
+  font-size: 1.3rem;
+}
+
+/* Карточки тортов */
+.cake:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Фокус на инпутах */
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #ff6f91;
+  box-shadow: 0 0 8px rgba(255,111,145,0.4);
+}
+
+/* Кнопка Pay Now */
+#payButton {
+  background: #ffb347; /* приятный контраст с основной кнопкой */
+  margin-top: 10px;
+}
+
+#payButton:hover {
+  background: #ffa500;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 600px) {
+  .hero {
+    padding: 60px 15px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+/* -------------------- */
+/* Модернизированные стили для сайта Custom Cakes */
+
+/* Общие плавные эффекты */
+* {
+  transition: all 0.3s ease;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #ffd6e0, #ffe8b3);
+  text-align: center;
+  padding: 100px 20px;
+  color: #333;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #ff4f70;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.hero p {
+  font-size: 1.4rem;
+  color: #6b4c77;
+}
+
+/* Hero button */
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 16px 36px;
+  background: linear-gradient(45deg, #ff6f91, #ffb347);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* PORTFOLIO */
+.portfolio h2 {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  color: #ff4f70;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  justify-items: center;
+  padding: 0 20px;
+}
+
+.cake {
+  background: linear-gradient(135deg, #fff0f5, #fff8e1);
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 280px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  text-align: center;
+  cursor: pointer;
+}
+
+.cake:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.18);
+}
+
+.cake img {
+  width: 100%;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.cake p {
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: #6b4c77;
+}
+
+/* ORDER */
+.order {
+  background: linear-gradient(135deg, #fff8f5, #ffe8d6);
+  padding: 70px 20px;
+  text-align: center;
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 700px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+.order h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #ff4f70;
+}
+
+/* Order form */
+form {
+  max-width: 550px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: bold;
+  color: #6b4c77;
+}
+
+form input, form select, form textarea {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 100%;
+  background: #fffaf0;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #ff6f91;
+  box-shadow: 0 0 10px rgba(255,111,145,0.4);
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Buttons */
+form button {
+  padding: 14px 30px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+form button[type="submit"] {
+  background: linear-gradient(45deg, #ff6f91, #ffb347);
+  color: #fff;
+}
+
+form button[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+#payButton {
+  background: linear-gradient(45deg, #fdd835, #ffb347);
+  color: #333;
+  margin-top: 10px;
+}
+
+#payButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* Price display */
+#cakePrice {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 5px;
+  color: #ff4f70;
+}
+
+/* Footer */
+footer {
+  background: #6b4c77;
+  color: #fff;
+  text-align: center;
+  padding: 30px;
+  font-size: 0.95rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .hero {
+    padding: 60px 15px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .order {
+    padding: 50px 15px;
+  }
+}
+/* -------------------- */
+/* Динамичные фоны и параллакс */
+
+/* Анимация фона для hero */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero {
+  background: linear-gradient(135deg, #ffd6e0, #ffe8b3, #b3fff0, #ffb3f0);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  text-align: center;
+  padding: 100px 20px;
+  color: #333;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Галерея с мягкой тенью и hover-параллакс */
+.cake {
+  background: linear-gradient(135deg, #fff0f5, #fff8e1);
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 280px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  text-align: center;
+  cursor: pointer;
+  perspective: 1000px; /* для лёгкого 3D эффекта */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cake:hover {
+  transform: rotateX(5deg) rotateY(5deg) translateY(-10px);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.18);
+}
+
+/* Форма с динамическим градиентом на фоне */
+.order {
+  background: linear-gradient(135deg, #fff8f5, #ffe8d6, #f0ffe8, #e8f0ff);
+  background-size: 400% 400%;
+  animation: gradientShift 25s ease infinite;
+  padding: 70px 20px;
+  text-align: center;
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 700px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+/* Кнопки с анимацией градиента */
+form button[type="submit"] {
+  background: linear-gradient(45deg, #ff6f91, #ffb347, #fdd835, #ff6f91);
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
+  color: #fff;
+}
+
+#payButton {
+  background: linear-gradient(45deg, #fdd835, #ffb347, #ff6f91, #fdd835);
+  background-size: 300% 300%;
+  animation: gradientShift 12s ease infinite;
+  color: #333;
+}
+
+/* Цена торта с мягким свечением */
+#cakePrice {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 5px;
+  color: #ff4f70;
+  text-shadow: 1px 1px 3px rgba(255,111,145,0.5);
+}
+
+/* Footer с градиентом и лёгкой анимацией */
+footer {
+  background: linear-gradient(135deg, #6b4c77, #ff4f70, #fdd835);
+  background-size: 400% 400%;
+  animation: gradientShift 30s ease infinite;
+  color: #fff;
+  text-align: center;
+  padding: 30px;
+  font-size: 0.95rem;
+}
+
+/* Добавим мягкую тень и glow для input и select */
+form input, form select, form textarea {
+  background: #fffaf0;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #ff6f91;
+  box-shadow: 0 0 15px rgba(255,111,145,0.4);
+}
+
+/* Добавим плавный параллакс для секций при скролле */
+section {
+  position: relative;
+  transform: translateY(0px);
+  transition: transform 0.3s ease-out;
+}
+
+section.parallax {
+  will-change: transform;
+}
+#lightbox {
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+}
+/* ===== BACKGROUND MAGIC ===== */
+body {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,182,193,0.35), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(255,218,185,0.35), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(255,192,203,0.35), transparent 40%),
+    linear-gradient(135deg, #fff8f5, #fdecef);
+  background-attachment: fixed;
+}
+/* ===== BACKGROUND MAGIC SAFE VERSION ===== */
+body {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,182,193,0.25), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(255,218,185,0.25), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(255,192,203,0.25), transparent 40%),
+    linear-gradient(135deg, #fff8f5, #fdecef);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Плавающие шарики-конфетти безопасно */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,182,193,0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatAround 20s linear infinite;
+  z-index: -1; /* Очень важно: всегда за контентом */
+}
+
+body::after {
+  background: radial-gradient(circle, rgba(255,218,185,0.3) 0%, transparent 70%);
+  top: auto;
+  bottom: -50px;
+  right: -50px;
+}
+
+/* Анимация движения шариков */
+@keyframes floatAround {
+  0% { transform: translate(0,0) rotate(0deg); }
+  50% { transform: translate(50px, 50px) rotate(180deg); }
+  100% { transform: translate(0,0) rotate(360deg); }
+}
+/* ===== HERO SUBTLE ANIMATION ===== */
+.hero h1, .hero p, .btn {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+.hero h1 { animation-delay: 0.2s; }
+.hero p { animation-delay: 0.5s; }
+.btn { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== GALLERY SUBTLE SCALE & FLOAT ===== */
+.cake img {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cake img:hover {
+  transform: scale(1.05) rotateZ(2deg);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+}
+
+/* Добавим плавное появление карточек при загрузке */
+.gallery .cake {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInCards 0.8s ease forwards;
+}
+
+.gallery .cake:nth-child(1) { animation-delay: 0.1s; }
+.gallery .cake:nth-child(2) { animation-delay: 0.2s; }
+.gallery .cake:nth-child(3) { animation-delay: 0.3s; }
+.gallery .cake:nth-child(4) { animation-delay: 0.4s; }
+.gallery .cake:nth-child(5) { animation-delay: 0.5s; }
+.gallery .cake:nth-child(6) { animation-delay: 0.6s; }
+.gallery .cake:nth-child(7) { animation-delay: 0.7s; }
+.gallery .cake:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInCards {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== ORDER FORM BUTTON SUBTLE ANIMATION ===== */
+form button {
+  position: relative;
+  overflow: hidden;
+}
+
+form button::after {
+  content: '';
+  position: absolute;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+  border-radius: 50%;
+}
+
+form button:hover::after {
+  transform: scale(1);
+}

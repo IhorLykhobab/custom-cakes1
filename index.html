@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Cakes in Brookings, SD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="hero">
+    <div style="position:absolute; top:20px; right:20px;">
+      <select id="languageSwitcher">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      </select>
+    </div>
+    <h1>Custom Cakes for Kids’ Birthdays</h1>
+    <p>Made with love in Brookings, SD</p>
+    <a href="#order" class="btn">Order a Cake</a>
+  </header>
+
+  <section class="portfolio">
+    <h2>Our Cakes</h2>
+    <div class="gallery">
+      <div class="cake">
+      <img src="images/customcake.jpg" alt="Custom Birthday Cake">
+      <p data-key="customcake">Custom Birthday Cake</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/citrusspecial.jpg" alt="Citrus Special Cake">
+      <p data-key="citrusspecial">Citrus Special Cake</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/dailyspecial.jpg" alt="Daily Special Cake">
+      <p data-key="dailyspecial">Daily Special Cake</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/happyb2.jpg" alt="Happy Birthday Cake 2">
+      <p data-key="happyb2">Happy Birthday Cake 2</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/happyb3.jpg" alt="Happy Birthday Cake 3">
+      <p data-key="happyb3">Happy Birthday Cake 3</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/happybirthday.jpg" alt="Happy Birthday Cake">
+      <p data-key="happybirthday">Happy Birthday Cake</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/jellydesert.jpg" alt="Jelly Dessert Cake">
+      <p data-key="jellydesert">Jelly Dessert Cake</p>
+      </div>
+
+      <div class="cake">
+      <img src="images/spiderman.jpg" alt="Spiderman Cake">
+      <p data-key="spiderman">Spiderman Cake</p>
+    </div>
+
+  </div>
+  
+  </section>
+
+  <section id="order" class="order">
+    <h2>Order Your Cake</h2>
+    <form id="cakeOrderForm">
+      
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" placeholder="John Doe" required>
+
+      <label for="email">Your Email:</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+      <label for="date">Date of Celebration:</label>
+      <input type="date" id="date" name="date" required>
+      <p id="dataPreview" style="font-weight:bold; color:#ff6f91;"></p>
+
+      <label for="age">Child's Age:</label>
+      <input type="number" id="age" name="age" min="0" max="18" placeholder="e.g. 7" required>
+
+      <label for="cake">Choose Your Cake:</label>
+      <select id="cake" name="cake" required>
+        <option value="">-- Select a Cake --</option>
+        <option value="customcake">Custom Birthday Cake</option>
+        <option value="citrusspecial">Citrus Special Cake</option>
+        <option value="dailyspecial">Daily Special Cake</option>
+        <option value="happyb2">Happy Birthday Cake 2</option>
+        <option value="happyb3">Happy Birthday Cake 3</option>
+        <option value="happybirthday">Happy Birthday Cake</option>
+        <option value="jellydesert">Jelly Dessert Cake</option>
+        <option value="spiderman">Spiderman Cake</option>
+      </select>
+
+      <!-- Цена торта -->
+      <p id="cakePrice" style="font-weight:bold; margin-top:10px;"></p>
+
+      <label for="message">Additional Notes:</label>
+      <textarea id="message" name="message" placeholder="Any special requests..."></textarea>
+
+      <button type="submit">Place Order</button>
+      <button type="button" id="payButton">Pay Now</button>
+
+    </form>
+    <p id="formMessage" style="margin-top:15px; font-weight:bold;"></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Custom Cakes • Brookings, SD</p>
+  </footer>
+
+  <!-- Stripe -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Main JS -->
+  <script src="js/main.js"></script>
+  <!-- Modal для увеличения картинки -->
+<div id="lightbox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+    background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+  <img id="lightboxImg" src="" alt="Cake" style="max-width:90%; max-height:90%; border-radius:15px;">
+</div>
+</body>
+</html>
