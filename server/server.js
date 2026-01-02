@@ -121,7 +121,7 @@ app.post('/create-checkout-session', async (req, res) => {
 
 // ===== Получение данных сессии =====
 app.get('/checkout-session', async (req, res) => {
-  const sessionId = req.query.sessionId;
+  const sessionId = req.query.session_id;
   if (!sessionId) return res.status(400).json({ error: 'No sessionId provided' });
 
   try {
