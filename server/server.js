@@ -21,13 +21,23 @@ const cakePrices = {
   spiderman: 120
 };
 
+// ===== Middleware для json, кроме webhook =====
+app.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    // оставляем тело в raw формате для проверки подписи
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
 // ===== Получение цен =====
 app.get('/prices', (req, res) => {
   res.json(cakePrices);
 });
 
 // ===== Создание Checkout Session =====
-app.post('/create-checkout-session', express.json(), async (req, res) => {
+app.post('/create-checkout-session', async (req, res) => {
   try {
     const { cake, name, date, age, message } = req.body;
 
@@ -83,18 +93,18 @@ app.get('/checkout-session', async (req, res) => {
 // ===== Stripe Webhook =====
 app.post(
   '/webhook',
-  express.raw({ type: 'application/json' }), // ⚠ важно для проверки сигнатуры
+  express.raw({ type: 'application/json' }), // важно, чтобы тело было raw
   (req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
 
     try {
       event = stripe.webhooks.constructEvent(
-        req.body, // req.body именно как raw buffer
+        req.body,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
-      console.log('Webhook received!', event.type);
+      console.log('✅ Webhook received!', event.type);
     } catch (err) {
       console.error('❌ Webhook signature verification failed.', err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
