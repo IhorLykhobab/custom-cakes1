@@ -2,10 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 const app = express();
-const PORT = process.env.PORT || 4242; // Render назначает свой PORT
-app.use(express.static(path.join(__dirname, '..'))); // тут лежат html/js
+const PORT = process.env.PORT || 4242;
+
+// ===== Статика фронтенда =====
+app.use(express.static(path.join(__dirname, '..')));
 app.use(express.json());
+
+// ===== Цены тортов =====
 const cakePrices = {
   customcake: 120,
   citrusspecial: 95,
@@ -16,8 +21,13 @@ const cakePrices = {
   jellydesert: 95,
   spiderman: 120
 };
-app.get('/prices', (req, res) => res.json(cakePrices));
 
+// ===== Получение цен =====
+app.get('/prices', (req, res) => {
+  res.json(cakePrices);
+});
+
+// ===== Создание Checkout Session =====
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const { cake, name, date, age, message } = req.body;
@@ -28,18 +38,26 @@ app.post('/create-checkout-session', async (req, res) => {
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [{
-        price_data: {
-          currency: 'usd',
-          product_data: { name: cake },
-          unit_amount: cakePrices[cake] * 100,
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: { name: cake },
+            unit_amount: cakePrices[cake] * 100,
+          },
+          quantity: 1,
         },
-        quantity: 1,
-      }],
+      ],
       mode: 'payment',
-      metadata: { customer_name: name, cake_type: cake, event_date: date, child_age: age, notes: message || 'No notes' },
-      success_url: `${process.env.SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.SITE_URL}/cancel.html`,
+      metadata: {
+        customer_name: name,
+        cake_type: cake,
+        event_date: date,
+        child_age: age,
+        notes: message || 'No notes',
+      },
+      success_url: 'https://custom-cakes1.onrender.com/success.html?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://custom-cakes1.onrender.com/cancel.html',
     });
 
     res.json({ id: session.id });
@@ -49,8 +67,9 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+// ===== Получение данных сессии =====
 app.get('/checkout-session', async (req, res) => {
-  const sessionId = req.query.session_id;
+  const sessionId = req.query.sessionId;
   if (!sessionId) return res.status(400).json({ error: 'No sessionId provided' });
 
   try {
@@ -61,8 +80,11 @@ app.get('/checkout-session', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve session' });
   }
 });
-app.post('/webhook',
-  express.raw({ type: 'application/json' }),
+
+// ===== Stripe Webhook =====
+app.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }), // важно для проверки сигнатуры
   (req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
@@ -73,17 +95,16 @@ app.post('/webhook',
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
+      console.log('Webhook received!', event.type);
     } catch (err) {
       console.error('❌ Webhook signature verification failed.', err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // УСПЕШНАЯ ОПЛАТА
+    // обрабатываем успешную оплату
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
-
-      console.log('Checkout session completed!', session);
-      console.log({
+      console.log('✅ Checkout session completed!', {
         email: session.customer_details?.email,
         amount: session.amount_total / 100,
         metadata: session.metadata,
@@ -93,37 +114,6 @@ app.post('/webhook',
     res.json({ received: true });
   }
 );
-app.post(
-  '/webhook',
-  bodyParser.raw({ type: 'application/json' }),
-  (req, res) => {
-    const sig = req.headers['stripe-signature'];
 
-    let event;
-
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-    } catch (err) {
-      console.error('Webhook signature verification failed.', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    // ✅ Обработка события
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
-
-      console.log('✅ PAYMENT CONFIRMED');
-      console.log('Customer:', session.customer_details?.email);
-      console.log('Metadata:', session.metadata);
-      console.log('Amount:', session.amount_total);
-    }
-
-    res.json({ received: true });
-  }
-);
-
+// ===== Запуск сервера =====
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
