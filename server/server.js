@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 4242;
 
 // ===== Статика фронтенда =====
 app.use(express.static(path.join(__dirname, '..')));
-app.use(express.json());
 
 // ===== Цены тортов =====
 const cakePrices = {
@@ -22,13 +21,8 @@ const cakePrices = {
   spiderman: 120
 };
 
-// ===== Получение цен =====
-app.get('/prices', (req, res) => {
-  res.json(cakePrices);
-});
-
 // ===== Создание Checkout Session =====
-app.post('/create-checkout-session', async (req, res) => {
+app.post('/create-checkout-session', express.json(), async (req, res) => {
   try {
     const { cake, name, date, age, message } = req.body;
 
@@ -82,9 +76,10 @@ app.get('/checkout-session', async (req, res) => {
 });
 
 // ===== Stripe Webhook =====
+// ⚠️ Используем express.raw(), чтобы передать Stripe _raw_ body
 app.post(
   '/webhook',
-  express.raw({ type: 'application/json' }), // важно для проверки сигнатуры
+  express.raw({ type: 'application/json' }),
   (req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
@@ -101,7 +96,7 @@ app.post(
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // обрабатываем успешную оплату
+    // обработка успешной оплаты
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
       console.log('✅ Checkout session completed!', {
