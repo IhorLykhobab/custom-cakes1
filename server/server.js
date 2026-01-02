@@ -19,7 +19,7 @@ app.post('/webhook',
       );
     } catch (err) {
       console.error('❌ Webhook signature verification failed.', err.message);
-      return res.status(400).send(Webhook Error: ${err.message});
+      return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
     // УСПЕШНАЯ ОПЛАТА
