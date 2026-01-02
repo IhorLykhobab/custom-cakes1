@@ -1,8 +1,9 @@
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const app = express();
 const PORT = process.env.PORT || 4242; // Render назначает свой PORT
 app.post('/webhook',
@@ -26,12 +27,44 @@ app.post('/webhook',
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
 
-      console.log('✅ PAYMENT SUCCESS');
+      console.log('Checkout session completed!', session);
       console.log({
         email: session.customer_details?.email,
         amount: session.amount_total / 100,
         metadata: session.metadata,
       });
+    }
+
+    res.json({ received: true });
+  }
+);
+app.post(
+  '/webhook',
+  bodyParser.raw({ type: 'application/json' }),
+  (req, res) => {
+    const sig = req.headers['stripe-signature'];
+
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.error('Webhook signature verification failed.', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // ✅ Обработка события
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+
+      console.log('✅ PAYMENT CONFIRMED');
+      console.log('Customer:', session.customer_details?.email);
+      console.log('Metadata:', session.metadata);
+      console.log('Amount:', session.amount_total);
     }
 
     res.json({ received: true });
