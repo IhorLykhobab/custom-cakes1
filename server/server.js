@@ -5,10 +5,40 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 4242; // Render назначает свой PORT
+app.post('/webhook',
+  express.raw({ type: 'application/json' }),
+  (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
 
-app.use(express.static(path.join(__dirname, '..'))); // тут лежат html/js
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.error('❌ Webhook signature verification failed.', err.message);
+      return res.status(400).send(Webhook Error: ${err.message});
+    }
+
+    // УСПЕШНАЯ ОПЛАТА
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+
+      console.log('✅ PAYMENT SUCCESS');
+      console.log({
+        email: session.customer_details?.email,
+        amount: session.amount_total / 100,
+        metadata: session.metadata,
+      });
+    }
+
+    res.json({ received: true });
+  }
+);
 app.use(express.json());
-
+app.use(express.static(path.join(__dirname, '..'))); // тут лежат html/js
 const cakePrices = {
   customcake: 120,
   citrusspecial: 95,
