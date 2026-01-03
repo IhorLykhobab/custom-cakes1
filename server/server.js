@@ -8,17 +8,18 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 4242;
 const nodemailer = require('nodemailer');
+
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST, // smtp.gmail.com
+  host: process.env.EMAIL_HOST,       // smtp.gmail.com
   port: parseInt(process.env.EMAIL_PORT, 10), // 587
-  secure: false, // false для 587
+  secure: false,                       // false для 587
   auth: {
-    user: process.env.EMAIL_USER, // твой Gmail
-    pass: process.env.EMAIL_PASS, // пароль приложения
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   },
   tls: {
-    rejectUnauthorized: false, // чтобы TLS работал на Render
-  },
+    rejectUnauthorized: false
+  }
 });
 // Проверка подключения к SMTP
 transporter.verify((err, success) => {
@@ -29,7 +30,7 @@ async function sendOrderEmail(order) {
   try {
     // Письмо клиенту
     await transporter.sendMail({
-      from: `from: "Custom Cakes" <${process.env.EMAIL_USER}>`,
+      from: `"Custom Cakes" <${process.env.EMAIL_USER}>`,
       to: order.email,
       subject: `Your Cake Order #${order.id} is Confirmed!`,
       html: `
@@ -44,7 +45,7 @@ async function sendOrderEmail(order) {
 
     // Письмо для админа (тебя)
     await transporter.sendMail({
-      from:`from: "Custom Cakes" <${process.env.EMAIL_USER}>`,
+      from:`"Custom Cakes" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER, // сюда придет уведомление
       subject: `New Order Received #${order.id}`,
       html: `
