@@ -1,4 +1,4 @@
-fetch('/admin/orders')
+fetch('https://custom-cakes1.onrender.com/admin/orders')
   .then(res => res.json())
   .then(orders => {
     const container = document.getElementById('orders');
