@@ -10,17 +10,16 @@ const PORT = process.env.PORT || 4242;
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST, // smtp.gmail.com
-  port: 587,                     // 587 — рабочий на Render
-  secure: false,                 // false для 587
+  port: parseInt(process.env.EMAIL_PORT, 10), // 587
+  secure: false, // false для 587
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: process.env.EMAIL_USER, // твой Gmail
+    pass: process.env.EMAIL_PASS, // пароль приложения
   },
   tls: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false, // чтобы TLS работал на Render
+  },
 });
-
 // Проверка подключения к SMTP
 transporter.verify((err, success) => {
   if (err) console.error('❌ SMTP connection failed:', err);
