@@ -1,0 +1,86 @@
+/* ===== Общие настройки ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+  padding: 40px;
+  margin: 0;
+  color: #333;
+}
+
+/* ===== Заголовок ===== */
+h1 {
+  font-size: 2rem;
+  color: #1f3a93;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Контейнер заказов ===== */
+#orders {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ===== Карточка заказа ===== */
+.order {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Параграфы внутри карточки ===== */
+.order p {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+/* ===== Подписи (strong) ===== */
+.order p strong {
+  color: #1f3a93;
+}
+
+/* ===== Сумма и дата ===== */
+.order p.amount {
+  font-weight: 600;
+  color: #28a745;
+}
+
+.order p.paidAt {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ===== Скругленный список (если понадобится) ===== */
+.order ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ===== Кнопки (если добавим) ===== */
+.order button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #1f3a93;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.order button:hover {
+  background: #162f6d;
+}
