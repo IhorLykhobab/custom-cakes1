@@ -9,19 +9,28 @@ const app = express();
 const PORT = process.env.PORT || 4242;
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: true, // для 465 порта
+  host: process.env.EMAIL_HOST, // smtp.gmail.com
+  port: 587,                     // 587 — рабочий на Render
+  secure: false,                 // false для 587
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
+});
+
+// Проверка подключения к SMTP
+transporter.verify((err, success) => {
+  if (err) console.error('❌ SMTP connection failed:', err);
+  else console.log('✅ SMTP connection OK');
 });
 async function sendOrderEmail(order) {
   try {
     // Письмо клиенту
     await transporter.sendMail({
-      from: `"Custom Cakes" <${process.env.EMAIL_USER}>`,
+      from: `from: "Custom Cakes" <${process.env.EMAIL_USER}>`,
       to: order.email,
       subject: `Your Cake Order #${order.id} is Confirmed!`,
       html: `
@@ -36,7 +45,7 @@ async function sendOrderEmail(order) {
 
     // Письмо для админа (тебя)
     await transporter.sendMail({
-      from:`"Custom Cakes" <${process.env.EMAIL_USER}>`,
+      from:`from: "Custom Cakes" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER, // сюда придет уведомление
       subject: `New Order Received #${order.id}`,
       html: `
