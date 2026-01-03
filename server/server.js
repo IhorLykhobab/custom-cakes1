@@ -7,6 +7,55 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 4242;
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: true, // для 465 порта
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+async function sendOrderEmail(order) {
+  try {
+    // Письмо клиенту
+    await transporter.sendMail({
+      from: `"Custom Cakes" <${process.env.EMAIL_USER}>`,
+      to: order.email,
+      subject: `Your Cake Order #${order.id} is Confirmed!`,
+      html: `
+        <h2>Thank you for your order, ${order.metadata.customer_name}!</h2>
+        <p><strong>Cake:</strong> ${order.metadata.cake_type}</p>
+        <p><strong>Date:</strong> ${order.metadata.event_date}</p>
+        <p><strong>Age:</strong> ${order.metadata.child_age}</p>
+        <p><strong>Notes:</strong> ${order.metadata.notes}</p>
+        <p><strong>Amount Paid:</strong> $${order.amount} ${order.currency.toUpperCase()}</p>`
+      
+    });
+
+    // Письмо для админа (тебя)
+    await transporter.sendMail({
+      from:`"Custom Cakes" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // сюда придет уведомление
+      subject: `New Order Received #${order.id}`,
+      html: `
+        <h2>New order received!</h2>
+        <p><strong>Name:</strong> ${order.metadata.customer_name}</p>
+        <p><strong>Email:</strong> ${order.email}</p>
+        <p><strong>Cake:</strong> ${order.metadata.cake_type}</p>
+        <p><strong>Date:</strong> ${order.metadata.event_date}</p>
+        <p><strong>Age:</strong> ${order.metadata.child_age}</p>
+        <p><strong>Notes:</strong> ${order.metadata.notes}</p>
+        <p><strong>Amount Paid:</strong> $${order.amount} ${order.currency.toUpperCase()}</p>`
+      
+    });
+
+    console.log('📧 Emails sent successfully!');
+  } catch (err) {
+    console.error('❌ Failed to send email:', err);
+  }
+}
 
 // ===== Stripe Webhook =====
 // Важно: маршрут для webhook помещаем ДО других парсеров/статических middleware,
@@ -63,6 +112,7 @@ app.post(
   fs.writeFileSync(ordersPath, JSON.stringify(orders, null, 2));
 
   console.log('📦 Order saved:', order);
+  sendOrderEmail(order);
 }
 
     res.json({ received: true });
