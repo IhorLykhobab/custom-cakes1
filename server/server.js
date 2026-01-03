@@ -68,7 +68,20 @@ app.post(
     res.json({ received: true });
   }
 );
+const fs = require('fs');
+const path = require('path');
 
+// ===== Админ: получить все заказы =====
+app.get('/admin/orders', (req, res) => {
+  try {
+    const data = fs.readFileSync(path.join(__dirname, 'orders.json'), 'utf8');
+    const orders = data ? JSON.parse(data) : [];
+    res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to load orders' });
+  }
+});
 // ===== Статика фронтенда =====
 app.use(express.static(path.join(__dirname, '..')));
 
