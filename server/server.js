@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -40,13 +41,29 @@ app.post(
 
     // обработка успешной оплаты
     if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
-      console.log('✅ Checkout session completed!', {
-        email: session.customer_details?.email,
-        amount: session.amount_total / 100,
-        metadata: session.metadata,
-      });
-    }
+  const session = event.data.object;
+
+  const order = {
+    id: session.id,
+    email: session.customer_details?.email || '',
+    amount: session.amount_total / 100,
+    currency: session.currency,
+    metadata: session.metadata,
+    createdAt: new Date().toISOString()
+  };
+
+  const ordersPath = path.join(__dirname, 'orders.json');
+
+  let orders = [];
+  if (fs.existsSync(ordersPath)) {
+    orders = JSON.parse(fs.readFileSync(ordersPath, 'utf8'));
+  }
+
+  orders.push(order);
+  fs.writeFileSync(ordersPath, JSON.stringify(orders, null, 2));
+
+  console.log('📦 Order saved:', order);
+}
 
     res.json({ received: true });
   }

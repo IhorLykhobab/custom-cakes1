@@ -644,3 +644,28 @@ form button::after {
 form button:hover::after {
   transform: scale(1);
 }
+#orderDetails {
+  list-style-type: none;        /* убирает точки */
+  padding-inline-start: 0;      /* ← ВОТ ОНО */
+  margin: 20px 0;
+  text-align: left;
+}
+
+#orderDetails li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+/* ===== Стили для списка деталей заказа ===== */
+#OrderDetails {
+  list-style: none;      /* убираем точки */
+  padding: 0;            /* убираем внутренний отступ слева */
+  margin: 0 0 20px 0;    /* верхний=0, нижний=20px, слева/справа=0 */
+  text-align: left;      /* выравнивание текста по левому краю */
+}
+
+#OrderDetails li {
+  margin: 5px 0;         /* расстояние между строками */
+  font-size: 16px;       /* размер шрифта деталей */
+  color: #333;           /* цвет текста деталей */
+}
