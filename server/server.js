@@ -68,9 +68,6 @@ app.post(
     res.json({ received: true });
   }
 );
-const fs = require('fs');
-const path = require('path');
-
 // ===== Админ: получить все заказы =====
 app.get('/admin/orders', (req, res) => {
   try {
